@@ -46,8 +46,13 @@ http://35.184.34.164/get_status?name=sachin
 
 
 
-https://github.com/SachinMaharana/pizzaui(won't work without proxy)
+https://github.com/SachinMaharana/pizzaui
+
+(won't work without proxy)
+
 docker run -p 5000:5000 -d sachinnicky/pizza-server:v0.2
+
 npm start
+
 enable Access Control Allow Origin
 
