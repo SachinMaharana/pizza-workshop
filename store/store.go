@@ -4,14 +4,12 @@ import (
 	"fmt"
 	"math/rand"
 	"time"
+
+	"github.com/pizza-workshop/notify"
 )
 
-// TODO
-
-// Notifier ...
-type Notifier interface {
-	notify()
-}
+// N is notification interface
+var N notify.Notify
 
 const (
 	doughPrepTime  = 15
@@ -39,13 +37,27 @@ type order struct {
 
 // MakePizza is a method on Store struct
 func (s *Store) MakePizza(pizzaType, contactType, contact, name string) bool {
+
 	c := &order{name: name, contactType: contactType, contact: contact, pizzaType: pizzaType, status: "starting"}
 	s.orders[name] = c
 	doughPrep(c, doughPrepTime)
 	ovenBake(c, ovenBakeTime)
 	toppingArt(c, toppingArtTime)
+
 	c.status = "Order completed"
-	s.notify(c)
+
+	switch c.contactType {
+	case "email":
+		N = notify.NewEmail(c.name, c.contact, c.pizzaType)
+	case "sms":
+		N = notify.NewSMS(c.name, c.contact, c.pizzaType)
+	}
+
+	res := N.SendNotification()
+	if !res {
+		fmt.Println("Error in sending Notification")
+	}
+
 	return true
 
 }
@@ -58,12 +70,6 @@ func (s *Store) GetStatus(name string) string {
 	}
 	status = s.orders[name].status
 	return status
-}
-
-// TODO
-
-func (s *Store) notify(c *order) {
-	fmt.Println("Notified", c.name)
 }
 
 func doughPrep(c *order, t int) {

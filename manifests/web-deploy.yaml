@@ -9,7 +9,7 @@ spec:
     matchLabels:
       run: pizza-server
 
-  replicas: 2
+  replicas: 1
 
   minReadySeconds: 10
 
