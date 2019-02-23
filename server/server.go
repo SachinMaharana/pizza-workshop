@@ -25,18 +25,14 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	case http.MethodPost:
 		if path != "/buy_pizza" {
 			statusNotFound(w)
+			return
 		}
 		pizzaType, contactType, contact, name := getParams(params)
 		s.makePizza(w, pizzaType, contactType, contact, name)
 	case http.MethodGet:
-		if path == "/" {
-			w.WriteHeader(http.StatusFound)
-			w.Write([]byte("Server is up."))
-			return
-		}
-
 		if path != "/get_status" {
 			statusNotFound(w)
+			return
 		}
 		name := params.Get("name")
 		s.getStatus(w, name)
@@ -51,7 +47,9 @@ func (s *Server) makePizza(w http.ResponseWriter, pizzaType, contactType, contac
 func (s *Server) getStatus(w http.ResponseWriter, name string) {
 	status := s.PizzaStore.GetStatus(name)
 	if status == "" {
-		statusNotFound(w)
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("Order Not Found"))
+		return
 	}
 	w.WriteHeader(http.StatusAccepted)
 	w.Write([]byte(status))
