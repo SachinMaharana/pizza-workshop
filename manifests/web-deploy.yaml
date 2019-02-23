@@ -25,7 +25,7 @@ spec:
         run: pizza-server
     spec:
       containers:
-      - image: sachinnicky/pizza-server:v0.1
+      - image: sachinnicky/pizza-server:v0.2
         name: go-web-container
         ports:
         - containerPort: 5000 
