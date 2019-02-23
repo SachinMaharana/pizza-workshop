@@ -5,12 +5,14 @@ import (
 	"net/url"
 )
 
+// PizzaMaker is an interface type that has methods a pizza store must implement
 type PizzaMaker interface {
 	GetStatus(name string) string
 
 	MakePizza(pizzaType, contactType, contact, name string) bool
 }
 
+// Server is http server that must implemnet handler interface
 type Server struct {
 	PizzaStore PizzaMaker
 }
@@ -30,14 +32,29 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		if path == "/" {
 			w.WriteHeader(http.StatusFound)
 			w.Write([]byte("Server is up."))
+			return
 		}
 
+		if path != "/get_status" {
+			statusNotFound(w)
+		}
+		name := params.Get("name")
+		s.getStatus(w, name)
 	}
 }
 
 func (s *Server) makePizza(w http.ResponseWriter, pizzaType, contactType, contact, name string) {
 	go s.PizzaStore.MakePizza(pizzaType, contactType, contact, name)
 	w.WriteHeader(http.StatusAccepted)
+}
+
+func (s *Server) getStatus(w http.ResponseWriter, name string) {
+	status := s.PizzaStore.GetStatus(name)
+	if status == "" {
+		statusNotFound(w)
+	}
+	w.WriteHeader(http.StatusAccepted)
+	w.Write([]byte(status))
 }
 
 func getParams(p url.Values) (string, string, string, string) {
