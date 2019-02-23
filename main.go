@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/pizza-workshop/server"
+	"github.com/pizza-workshop/store"
 )
 
 func main() {

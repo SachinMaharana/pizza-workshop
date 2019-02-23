@@ -26,6 +26,12 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 		pizzaType, contactType, contact, name := getParams(params)
 		s.makePizza(w, pizzaType, contactType, contact, name)
+	case http.MethodGet:
+		if path == "/" {
+			w.WriteHeader(http.StatusFound)
+			w.Write([]byte("Server is up."))
+		}
+
 	}
 }
 
