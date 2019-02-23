@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pizza-server-deploy
+  labels:
+    app: development
+spec:
+  selector:
+    matchLabels:
+      run: pizza-server
+
+  replicas: 2
+
+  minReadySeconds: 10
+
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+
+  template:
+    metadata: 
+      labels:
+        run: pizza-server
+    spec:
+      containers:
+      - image: sachinnicky/pizza-server:v0.1
+        name: go-web-container
+        ports:
+        - containerPort: 5000 
