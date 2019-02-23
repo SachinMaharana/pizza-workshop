@@ -1,9 +1,17 @@
 package store
 
 import (
+	"fmt"
 	"math/rand"
 	"time"
 )
+
+// TODO
+
+// Notifier ...
+type Notifier interface {
+	notify()
+}
 
 const (
 	doughPrepTime  = 15
@@ -37,6 +45,7 @@ func (s *Store) MakePizza(pizzaType, contactType, contact, name string) bool {
 	ovenBake(c, ovenBakeTime)
 	toppingArt(c, toppingArtTime)
 	c.status = "Order completed"
+	s.notify(c)
 	return true
 
 }
@@ -49,6 +58,12 @@ func (s *Store) GetStatus(name string) string {
 	}
 	status = s.orders[name].status
 	return status
+}
+
+// TODO
+
+func (s *Store) notify(c *order) {
+	fmt.Println("Notified", c.name)
 }
 
 func doughPrep(c *order, t int) {
