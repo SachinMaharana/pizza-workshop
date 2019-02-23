@@ -12,6 +12,15 @@ docker pull sachinnicky/pizza-server:v0.2
 docker run -p 5000:5000 -d sachinnicky/pizza-server:v0.2
 ```
 
+# Test
+
+```
+go build
+
+go test ./... -cover -v
+
+```
+
 # Examples
 
 In Postman or other client.
