@@ -40,9 +40,6 @@ In Kubernetes.
 get lb point: k get svc | awk 'NR == 3 {print \$4}'
 //unstable (need to debug)
 
-http://35.184.34.164/buy_pizza?pizzaType=veg&contact=sachin.nicky@gmail.com&name=sachin&contactType=email
-
-http://35.184.34.164/get_status?name=sachin
 
 
 
