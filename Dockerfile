@@ -16,6 +16,6 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build
 
 # final stage
 FROM scratch
-COPY --from=builder /app/pizza /app/
+COPY --from=builder /app/pizza-workshop /app/
 EXPOSE 5000
-ENTRYPOINT ["/app/pizza"]
+ENTRYPOINT ["/app/pizza-workshop"]
