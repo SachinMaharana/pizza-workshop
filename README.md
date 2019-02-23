@@ -43,3 +43,11 @@ get lb point: k get svc | awk 'NR == 3 {print \$4}'
 http://35.184.34.164/buy_pizza?pizzaType=veg&contact=sachin.nicky@gmail.com&name=sachin&contactType=email
 
 http://35.184.34.164/get_status?name=sachin
+
+
+
+https://github.com/SachinMaharana/pizzaui(won't work without proxy)
+docker run -p 5000:5000 -d sachinnicky/pizza-server:v0.2
+npm start
+enable Access Control Allow Origin
+
